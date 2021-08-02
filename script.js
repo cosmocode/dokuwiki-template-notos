@@ -1,7 +1,3 @@
-jQuery('input.notos-toggle').on('click', function () {
-    jQuery('input.notos-toggle').not(this).prop('checked', false);
-});
-
 /**
  * Mobile menu open handling
  */
@@ -15,9 +11,21 @@ jQuery(function () {
     });
 });
 
-jQuery('body').not(jQuery('.notos-toggle').children()).on('click', function(event) {
+/**
+ * Close other notos toggle menus when opening a new one
+ */
+jQuery('input.notos-toggle').on('click', function () {
+    jQuery('input.notos-toggle').not(this).prop('checked', false);
+});
+
+/**
+ * Close notos toggle menus on clicks elsewhere
+ */
+jQuery('body').on('click', function(event) {
+    const $target = jQuery(event.target);
+    if($target.is('.notos-toggle') || $target.parents('.notos-toggle').length) return;
     const $toggle = jQuery('input.notos-toggle');
-    if (event.target !== document.getElementById('notos__sitetools') && $toggle.prop('checked')) {
+    if ($toggle.prop('checked')) {
         $toggle.prop('checked', false);
     }
 });
